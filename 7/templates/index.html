@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://andybrewer.github.io/mvp/mvp.css" rel="stylesheet">
+    </link>
+</head>
+
+<body>
+    <header>
+        <h1>BIG News</h1>
+        <div>
+            <span>Order by : </span>
+            {% if order_by == 'popular' %}
+            <strong>
+                Popular
+            </strong>
+            <span>|</span>
+            <a href={{ url_for( "index", order_by="new" ) }}>
+                New
+            </a>
+            {% elif order_by == "new" %}
+            <a href={{ url_for( "index", order_by="popular" ) }}>
+                Popular
+            </a>
+            <span> | </span>
+            <strong>
+                New
+            </strong>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        {% if error %}
+        <div>{{ error }}</div>
+        {% else %}
+        {% for each in news %}
+        <div>
+            <div>
+                <a href={{ url_for( "detail", news_id=each.objectID ) }}>
+                    <h3>{{ each.title }}</h3>
+                </a>
+                <div>
+                    ( <a href="{{ each.url }}" target="_blank">{{ each.url }}</a> )
+                </div>
+            </div>
+            <div>
+                <span>{{ each.points }} points | </span>
+                <span>By {{ each.author }} | </span>
+                <span>{{ each.num_comments }} comments</span>
+            </div>
+        </div>
+        <hr />
+        {% endfor %}
+        {% endif %}
+    </main>
+</body>
+
+</html>
